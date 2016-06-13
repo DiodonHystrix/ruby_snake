@@ -12,26 +12,33 @@ class GameWindow < Gosu::Window
   end
 
   def update
-    @snake.movement
-    check_snake_eating_habits
+    if @snake.alive
+      @snake.movement
+      check_snake_eating_habits
+    end
   end
 
   def draw
     draw_quad(0, 0, WHITE, 400, 0, WHITE, 0, 400, WHITE, 400, 400, WHITE)
-    @snake.draw
-    @fruit.draw
+      @snake.draw
+      @fruit.draw
   end
 
   def button_down(id)
     case id
-    when Gosu::KbLeft
-      @snake.move_left
-    when Gosu::KbRight
-      @snake.move_right
-    when Gosu::KbDown
-      @snake.move_down
-    when Gosu::KbUp
-      @snake.move_up
+      when Gosu::KbLeft
+        @snake.move_left
+      when Gosu::KbRight
+        @snake.move_right
+      when Gosu::KbDown
+        @snake.move_down
+      when Gosu::KbUp
+        @snake.move_up
+      when Gosu::KbReturn
+        if !@snake.alive
+          @snake = Snake.new(self)
+          @fruit = Fruit.new(self, @snake)
+        end
     end
   end
 
